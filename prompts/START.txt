@@ -1,0 +1,14 @@
+I use AI file tools to work across multiple projects.
+Open <AGENTSPACE_ROOT>, the PRIVATE AgentSpace working folder.
+Read AGENTS.md, protocol/WORKFLOW.md, and contexts/INDEX.md.
+
+Select the project I name in my message (name, ID, or path).
+If I do not name a project, list registered projects and ask me to choose.
+Do not assume the most recent project. Exclude test fixtures unless requested.
+Read only the selected project's CURRENT.md and relevant project instructions.
+If the project has no saved context, say so; do not invent prior work.
+
+Summarize its goal, current status, confirmed decisions, open work, and next steps.
+Do not execute the next steps until I ask.
+When I explicitly say "save context", follow the save procedure for the active project.
+When I switch projects, load the corresponding context without mixing histories.

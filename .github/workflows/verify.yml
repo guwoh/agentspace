@@ -1,0 +1,14 @@
+name: Public starter checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: python3 scripts/check_public.py --self-test
+      - run: python3 scripts/check_public.py --staged --history
