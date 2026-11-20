@@ -9,11 +9,12 @@ Use a private throwaway project, not real work:
 3. Confirm the AI asks for a project instead of assuming one.
 4. Name a fictional project. Confirm it says no prior handoff exists.
 5. Give it a fictional goal and an unfinished task; say save context.
-6. Confirm a snapshot, identical CURRENT.md, and index entry were written and read back.
-7. Change one fictional decision; save again. Confirm a new ID, unchanged old snapshot, updated CURRENT and index.
-8. Open a genuinely new chat or authorized account, reconnect tools, and send the startup prompt.
-9. Confirm the summary distinguishes completed work from plans and preserves the reason for the changed decision.
-10. Confirm merely quoting the phrase save context does not trigger a save.
-11. Switch to a second fictional project and verify no unrelated context is loaded.
+6. Confirm the snapshot and CURRENT.md match. Check that BRIEF.md and the index point to the same session ID and to the right files.
+7. Change one fictional decision and save again. Verify the first snapshot stayed intact, the new full files match, and the brief and index show the new ID.
+8. Open a genuinely new chat or authorized account. Reconnect tools and send the startup prompt.
+9. Confirm the AI starts with the brief and opens the relevant full section when asked for the evidence behind a decision. Check that its summary preserves the reason for the change.
+10. In the throwaway project, set the brief's source session to the first ID and resume again. Confirm the AI checks CURRENT.md. Repeat with a project that has a full handoff and no brief.
+11. Confirm that quoting the phrase save context leaves the saved files intact.
+12. Switch to a second fictional project and verify that the AI reads only the context for that project.
 
 Do not claim step 8 passed based on rereading files in the same conversation. No cross-account or platform compatibility claim is implied by the package checks.

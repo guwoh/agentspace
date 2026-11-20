@@ -3,6 +3,7 @@
 - Saved at: 2030-01-01 (fictional date)
 - Project root: <PRIVATE_LOCAL_PROJECT_PATH>
 - Snapshot: sessions/2030-01-01-01.md
+- Brief: [Fictional brief](BRIEF.md)
 - Sources: invented demonstration only
 
 ## Goal and scope

@@ -5,7 +5,9 @@ Read AGENTS.md, protocol/WORKFLOW.md, and contexts/INDEX.md.
 Select the project I name in my message (name, ID, or path).
 If I do not name a project, list registered projects and ask me to choose.
 Do not assume the most recent project. Exclude test fixtures unless requested.
-Read only the selected project's CURRENT.md and relevant project instructions.
+Read only the selected project's BRIEF.md first and follow its relevant file pointers.
+If BRIEF.md is absent, stale, or too short for the task, open CURRENT.md.
+Read the applicable instructions for that project.
 If the project has no saved context, say so; do not invent prior work.
 
 Summarize its goal, current status, confirmed decisions, open work, and next steps.

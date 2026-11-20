@@ -3,7 +3,7 @@
 
 [Tiếng Việt](README.vi.md) · [DevSpace setup](docs/DEVSPACE.md) · [Workflow](protocol/WORKFLOW.md)
 
-AgentSpace is a small, file-based working convention for people using AI across multiple projects, conversations, accounts, and clients. The AI reads a shared protocol, selects a project, and restores its latest saved handoff. You decide when to save by typing **save context**.
+AgentSpace is a small, file-based working convention for people using AI across multiple projects, conversations, accounts, and clients. The AI reads a shared protocol, selects a project, and resumes from its latest saved handoff. You decide when to save by typing **save context**.
 
 This is a starter kit, not a background service, model memory plugin, or chat-history exporter. It cannot recover conversations that were never saved, guarantee an agent follows instructions, or make cloud inference local.
 
@@ -27,14 +27,19 @@ The example commands target Bash (Linux/macOS/WSL). Do not overwrite existing fi
 5. In a new chat or authorized account, reconnect file access and send the same startup prompt.
 
 The private context layout uses:
-- `contexts/INDEX.md`: project IDs, local paths, and latest session IDs.
-- `contexts/<project-id>/CURRENT.md`: latest handoff.
-- `contexts/<project-id>/sessions/YYYY-MM-DD-NN.md`: immutable saved snapshots.
+- `contexts/INDEX.md` records project IDs, local paths, entry points, and latest session IDs.
+- `contexts/<project-id>/BRIEF.md` gives a short overview and links to relevant sources.
+- `contexts/<project-id>/CURRENT.md` holds the latest full handoff.
+- `contexts/<project-id>/sessions/YYYY-MM-DD-NN.md` keeps immutable full snapshots.
 
-Read only the selected project. Keep research, software, coursework, and other projects separate. Register a new project on its first requested save.
+Read the selected project's brief first. Open its full handoff when the brief is absent, stale, or too short for the task. Keep projects separate and register a new project on its first requested save.
+
+### Updating an existing private folder
+
+Add the new brief template and merge the updated workflow, startup prompt, and instructions into your private copies. Keep your registry and full handoff history. Projects without a brief can continue using `CURRENT.md`. On the next requested save, derive a brief from the verified full handoff and update the registry.
 
 ## What gets saved
-Goal, confirmed decisions and reasons, completed work and checks, open questions, next actions, and relevant file paths. Mark plans and assumptions explicitly. See [the template](protocol/HANDOFF_TEMPLATE.md) and [a fictional example](examples/HANDOFF.md).
+Goal, confirmed decisions and reasons, completed work and checks, open questions, next actions, and relevant file paths. Mark plans and assumptions explicitly. See the [full handoff template](protocol/HANDOFF_TEMPLATE.md), [brief template](protocol/BRIEF_TEMPLATE.md), and [fictional brief with full handoff](examples/BRIEF.md).
 
 ## Public starter vs private data
 Publish only generic rules, templates, and fictional examples. Keep real contexts, paths, recordings, attachments, credentials, and transcripts in the private working folder. The starter uses a deny-by-default Git ignore list and an [allowlist/content audit](docs/PRIVACY.md); these are checks, not a guarantee against every kind of sensitive information.

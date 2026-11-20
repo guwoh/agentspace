@@ -14,10 +14,12 @@ Bạn làm việc với AI hôm nay, hôm sau mở một cuộc chat hoặc tài
 6. Gõ **save context** trước khi kết thúc phiên.
 7. Phiên mới kết nối lại công cụ, gửi prompt mở đầu và chọn dự án để tiếp quản.
 
-AI chỉ đọc context của dự án được chọn. Nếu chưa có hồ sơ thì không bịa lịch sử; đăng ký dự án khi bạn yêu cầu lưu lần đầu. Lệnh save context xuất hiện trong tài liệu hoặc ví dụ không được coi là yêu cầu lưu.
+AI đọc `BRIEF.md` của dự án được chọn trước, rồi mở `CURRENT.md` khi bản tóm tắt thiếu, lệch phiên hoặc chưa đủ cho công việc. Nếu chưa có hồ sơ thì không bịa lịch sử; đăng ký dự án khi bạn yêu cầu lưu lần đầu. Lệnh save context xuất hiện trong tài liệu hoặc ví dụ không được coi là yêu cầu lưu.
 
 ## Mỗi lần lưu gồm gì?
-Mục tiêu, trạng thái, quyết định và lý do, việc đã làm, kết quả kiểm tra, việc còn dở, bước tiếp theo và file liên quan. Bản phiên mới được ghi trước, CURRENT.md cập nhật sau; đọc lại để xác nhận thành công.
+Mục tiêu, trạng thái, quyết định và lý do, việc đã làm, kết quả kiểm tra, việc còn dở, bước tiếp theo và file liên quan. Quy trình ghi bản phiên đầy đủ, cập nhật `CURRENT.md`, rồi tạo `BRIEF.md` từ hồ sơ đã kiểm tra và đồng bộ mã phiên trong `INDEX.md`. Xem [mẫu bản đầy đủ](protocol/HANDOFF_TEMPLATE.md) và [mẫu tóm tắt](protocol/BRIEF_TEMPLATE.md).
+
+Nếu đã có thư mục riêng, thêm mẫu tóm tắt và hợp nhất thay đổi trong quy trình, prompt và hướng dẫn. Giữ danh mục và lịch sử bàn giao hiện có. Dự án chưa có bản tóm tắt vẫn dùng được `CURRENT.md`.
 
 Đây là quy ước làm việc, chưa phải phần mềm tự thực thi. Không có service nền, không tự lấy chat từ tài khoản cũ, không bảo đảm agent luôn tuân thủ. ChatGPT dùng công cụ đọc file vẫn có thể nhận nội dung file trong cuộc hội thoại; lưu trên máy không đồng nghĩa mọi xử lý diễn ra cục bộ.
 

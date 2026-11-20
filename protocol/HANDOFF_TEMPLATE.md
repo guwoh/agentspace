@@ -3,6 +3,7 @@
 - Saved at: <local ISO 8601 timestamp with offset, or date only>
 - Project root: <PRIVATE_LOCAL_PROJECT_PATH>
 - Snapshot: sessions/<ID>.md
+- Brief: BRIEF.md (derived from this full handoff)
 - Sources: <current conversation / files read / previous handoff>
 
 ## Goal and scope
@@ -24,7 +25,11 @@
 <Concrete ordered steps for another session.>
 
 ## Relevant files
-<Paths and reasons to read, relative to the stated project root unless explicitly marked otherwise.>
+| File or stable link | Purpose and section to read | Verification status |
+|---|---|---|
+| <Exact path relative to the stated project root, or a stable link> | <What it documents> | <Verified, pending, or unavailable> |
+
+Use a specific manifest for a collection of data, logs, or artifacts when available.
 
 ## Recovery limits
 <Missing transcripts, stale evidence, unverified hardware/software.>

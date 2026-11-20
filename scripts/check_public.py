@@ -8,8 +8,8 @@ import sys
 
 ALLOWED = {
     "README.md", "README.vi.md", "AGENTS.md", "LICENSE", ".gitignore",
-    "protocol/WORKFLOW.md", "protocol/HANDOFF_TEMPLATE.md",
-    "prompts/START.txt", "templates/INDEX.md", "examples/HANDOFF.md",
+    "protocol/WORKFLOW.md", "protocol/HANDOFF_TEMPLATE.md", "protocol/BRIEF_TEMPLATE.md",
+    "prompts/START.txt", "templates/INDEX.md", "examples/HANDOFF.md", "examples/BRIEF.md",
     "docs/DEVSPACE.md", "docs/PRIVACY.md", "docs/TESTING.md",
     "scripts/check_public.py", ".github/workflows/verify.yml",
 }
