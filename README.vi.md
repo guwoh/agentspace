@@ -4,11 +4,43 @@
 
 **Đổi AI, giữ nguyên tiến độ.**
 
-AgentSpace là không gian làm việc giúp lưu kiến thức, tiến độ và cách làm việc của từng dự án trên máy tính, để tiếp tục từ phần đã lưu khi chuyển sang phiên AI khác.
+AgentSpace là không gian làm việc AI mã nguồn mở giúp tích lũy bộ nhớ dự án, truy xuất đúng context cần thiết và chuyển đổi AI mà vẫn giữ được tiến độ đã lưu. Kết hợp **DevSpace GUI đi kèm** với DevSpace server cài riêng, bạn còn có thể làm việc với laptop từ điện thoại thông qua AI client được hỗ trợ.
 
-[English](README.md) · [Desktop](docs/DESKTOP.md) · [DevSpace](docs/DEVSPACE.md) · [Changelog](CHANGELOG.md)
+[English](README.md) · [DevSpace GUI](#devspace-gui--làm-việc-từ-điện-thoại) · [Hướng dẫn DevSpace tiếng Việt](docs/DEVSPACE.vi.md) · [Desktop](docs/DESKTOP.md) · [Changelog](CHANGELOG.md)
 
-> Nhánh phát triển v0.3.0-dev bổ sung demo tương tác. Bản public đầu tiên là [v0.2.0](https://github.com/guwoh/agentspace/releases/tag/v0.2.0). Chưa xác nhận bộ cài, DPI nhiều màn hình và chuyển giao giữa các client thực tế.
+> Nhánh phát triển v0.3.0-dev có DevSpace GUI, Feature Map, Quick Resume và demo tương tác. Bản public đầu tiên là [v0.2.0](https://github.com/guwoh/agentspace/releases/tag/v0.2.0). Chưa xác nhận bộ cài, DPI nhiều màn hình và chuyển giao giữa các client thực tế.
+
+## Hai ứng dụng hỗ trợ một quy trình làm việc
+
+| AgentSpace Desktop | DevSpace GUI |
+| --- | --- |
+| Quản lý bộ nhớ dự án, skill và Feature Map | Cấu hình DevSpace MCP server cài riêng |
+| Tạo prompt tiếp quản và bàn giao | Quản lý thư mục cấp quyền và endpoint HTTPS |
+| Tiếp tục công việc từ context đã lưu | Hỗ trợ kết nối ChatGPT / Claude với laptop |
+
+## DevSpace GUI — làm việc từ điện thoại
+
+Bạn có thể yêu cầu AI kiểm tra code, đọc tài liệu hoặc chạy kiểm thử trên laptop khi không ngồi trước máy, nếu kết nối và quyền được thiết lập phù hợp.
+
+```mermaid
+flowchart LR
+    P["Điện thoại / AI client"] <-->|"MCP qua HTTPS, có xác thực"| S["DevSpace server trên laptop"]
+    G["DevSpace GUI"] -->|"Cấu hình local"| S
+    S --> A["Context AgentSpace"]
+    S --> F["File và công cụ dự án"]
+```
+
+**DevSpace GUI đã được tích hợp trong repo.** Mở AgentSpace Desktop → **Connect → Open DevSpace GUI**, hoặc chạy trực tiếp:
+
+```bash
+python3 -B scripts/devspace_gui.py
+```
+
+GUI hỗ trợ nhập URL HTTPS, thêm/bỏ thư mục được cấp quyền, kiểm tra endpoint, sao chép URL MCP, mở thiết lập ChatGPT/Claude và sao chép Owner password có xác nhận. Trên Linux có thể khởi động lại user service systemd đã được thiết lập.
+
+[**Hướng dẫn cài đặt và kết nối DevSpace bằng tiếng Việt**](docs/DEVSPACE.vi.md) · [English guide](docs/DEVSPACE.md) · [Mã nguồn GUI](scripts/devspace_gui.py)
+
+DevSpace server là [dự án độc lập](https://github.com/Waishnav/devspace), phải cài riêng. Laptop, server và tunnel cần hoạt động; tài khoản/client AI phải hỗ trợ connector và được cấp quyền. Kết nối đầu cuối trên điện thoại chưa được kiểm thử đầy đủ.
 
 ## AgentSpace giải quyết vấn đề gì?
 
@@ -56,7 +88,7 @@ Chọn dự án (hoặc tạo prompt cho dự án mới), chọn Resume, ấn Ge
 | Prompt Studio | Tiếp quản, lưu, tổng quan, bàn giao, cập nhật skill và dự án mới |
 | Context & History | Đọc brief, context đầy đủ và snapshot |
 | Skills | Tạo, sửa skill Markdown riêng |
-| Connections | Mở AI client, kiểm tra executable DevSpace |
+| Connections | Mở AI client, DevSpace GUI và kiểm tra executable DevSpace |
 | Backup & Settings | Sao lưu/phục hồi hồ sơ văn bản, chỉnh cỡ chữ bằng nút hoặc phím tắt |
 | CLI | Khởi tạo, liệt kê, kiểm tra, sinh prompt |
 
@@ -65,10 +97,6 @@ Chọn dự án (hoặc tạo prompt cho dự án mới), chọn Resume, ấn Ge
 AI đọc BRIEF trước, mở CURRENT và bằng chứng liên quan khi thiếu thông tin. Khi lưu theo yêu cầu rõ ràng, AI tạo snapshot đầy đủ, cập nhật CURRENT, sinh BRIEF và đồng bộ INDEX. Không khôi phục được tin nhắn chưa từng lưu. Không để nhiều AI đồng thời ghi cùng hồ sơ.
 
 Xem [quy trình](protocol/WORKFLOW.md), [mẫu đầy đủ](protocol/HANDOFF_TEMPLATE.md), [mẫu brief](protocol/BRIEF_TEMPLATE.md) và [ví dụ hư cấu](examples/BRIEF.md).
-
-## Làm việc từ xa với DevSpace
-
-Vào Connect → Open DevSpace GUI để cấu hình server DevSpace đã cài riêng, chọn thư mục, kiểm tra endpoint và kết nối AI. Xem [hướng dẫn tiếng Việt chi tiết](docs/DEVSPACE.vi.md). Khi laptop và tunnel hoạt động, có thể dùng AI client hỗ trợ trên điện thoại để làm việc từ xa.
 
 ## Định tuyến context theo chức năng
 

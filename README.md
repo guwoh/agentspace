@@ -4,15 +4,47 @@
 
 **Switch AI. Keep your progress.**
 
-AgentSpace is a local-first workspace that helps you save project context and pick up where you left off in another AI session.
+AgentSpace is an open-source, local-first workspace for AI-assisted projects. Build a lasting project memory, find the right context without loading everything, and continue across AI sessions. With the included **DevSpace GUI** and an independently installed DevSpace server, you can also work with your laptop remotely through a supported AI client on your phone.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-4b9c86)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab)](https://www.python.org/)
 [![Public starter checks](https://github.com/guwoh/agentspace/actions/workflows/verify.yml/badge.svg)](https://github.com/guwoh/agentspace/actions/workflows/verify.yml)
 
-[Tiếng Việt](README.vi.md) · [Desktop guide](docs/DESKTOP.md) · [DevSpace setup](docs/DEVSPACE.md) · [Changelog](CHANGELOG.md)
+[Tiếng Việt](README.vi.md) · [DevSpace GUI](#devspace-gui--work-from-your-phone) · [DevSpace setup — EN](docs/DEVSPACE.md) / [VI](docs/DEVSPACE.vi.md) · [Desktop guide](docs/DESKTOP.md) · [Changelog](CHANGELOG.md)
 
-> **Development branch:** v0.3.0-dev adds an interactive fictional demo. The first published source preview is [v0.2.0](https://github.com/guwoh/agentspace/releases/tag/v0.2.0). Native builds, multi-monitor DPI and real cross-client handoff still require acceptance testing.
+> **Development branch:** v0.3.0-dev includes DevSpace GUI, Feature Map, Quick Resume and an interactive fictional demo. The first published source preview is [v0.2.0](https://github.com/guwoh/agentspace/releases/tag/v0.2.0). Native builds, multi-monitor DPI and real cross-client handoff still require acceptance testing.
+
+## Two desktop tools, one workflow
+
+| AgentSpace Desktop | DevSpace GUI |
+| --- | --- |
+| Organize projects, context, skills and feature maps. | Configure the separately installed DevSpace MCP server. |
+| Generate resume and handoff prompts. | Manage permitted directories and HTTPS endpoint settings. |
+| Keep project memory portable across AI sessions. | Help connect ChatGPT or Claude to your computer. |
+
+## DevSpace GUI — work from your phone
+
+Imagine asking ChatGPT on your phone to inspect a project, edit code or run a test on your laptop, then resuming the work later without starting over.
+
+```mermaid
+flowchart LR
+    P["Phone / web AI client"] <-->|"Authorized MCP over HTTPS"| S["DevSpace server on laptop"]
+    G["DevSpace GUI"] -->|"Local configuration"| S
+    S --> A["Private AgentSpace context"]
+    S --> F["Authorized project files and tools"]
+```
+
+**DevSpace GUI is included in this repository.** In AgentSpace Desktop, choose **Connect → Open DevSpace GUI**, or launch the companion directly:
+
+```bash
+python3 -B scripts/devspace_gui.py
+```
+
+It provides HTTPS endpoint configuration, permitted-directory management, local/public connection probes, MCP URL copying, ChatGPT/Claude setup shortcuts and an explicit Owner-password copy action. Linux users with an existing systemd user service can also restart that service after confirmation.
+
+[**Set up DevSpace — step by step (English)**](docs/DEVSPACE.md) · [**Hướng dẫn chi tiết (Tiếng Việt)**](docs/DEVSPACE.vi.md) · [Companion source code](scripts/devspace_gui.py)
+
+The DevSpace server is a separate [upstream project](https://github.com/Waishnav/devspace), installed independently. Remote use requires a running laptop, reachable HTTPS tunnel, authorized connector and compatible AI client. AgentSpace does not bundle server credentials or automatically authenticate clients. Mobile end-to-end acceptance is still pending.
 
 ## Why AgentSpace?
 
@@ -63,10 +95,6 @@ No AI API key is needed by AgentSpace itself. Clipboard prompts are not sent aut
 | Connections | Open AI clients, launch the optional DevSpace configuration GUI, and check the local executable |
 | Backup & Settings | Back up and restore private text records; adjust text size using buttons or keyboard shortcuts |
 | CLI | Initialize, list, check and generate startup prompts without the GUI |
-
-## Remote work with DevSpace
-
-The optional companion GUI helps configure an independently installed DevSpace MCP server, manage allowed roots, check endpoints and connect supported AI clients. On a supported phone client, you can then work with your reachable laptop through the authorized AI. See the step-by-step [English guide](docs/DEVSPACE.md) or [Vietnamese guide](docs/DEVSPACE.vi.md). No credentials or server installation are bundled.
 
 ## How it works
 
