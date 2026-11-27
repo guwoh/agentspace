@@ -38,7 +38,7 @@ class AgentSpaceTests(unittest.TestCase):
 
     def test_init_preserves_existing(self):
         original = self.registry.read_bytes()
-        self.assertEqual(initialize(self.root), (0, 7))
+        self.assertEqual(initialize(self.root), (0, 8))
         self.assertEqual(self.registry.read_bytes(), original)
 
     def test_public_root_rejected(self):

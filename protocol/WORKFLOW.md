@@ -1,4 +1,4 @@
-# AgentSpace workflow v0.3
+# AgentSpace workflow v0.4
 
 AgentSpace uses files plus an agent with file access. The user chooses when to save.
 
@@ -12,7 +12,7 @@ AgentSpace uses files plus an agent with file access. The user chooses when to s
 ## Start or resume
 
 1. Read AGENTS.md, this protocol, and contexts/INDEX.md.
-2. Read the selected project's `BRIEF.md` if it exists. Use it to get oriented and open the sources needed for the current task.
+2. Read the selected project's `BRIEF.md` if it exists. For a focused task, look at `FEATURE_MAP.md` if present; check its source session against INDEX and follow only relevant feature and dependency routes. Resolve `project:` from the registered project root and `workspace:` from AgentSpace root. Verify source contents and instructions before acting. See [feature map template](FEATURE_MAP_TEMPLATE.md). Do not load unrelated features.
 3. Use `CURRENT.md` when the brief is absent, its source session differs from the index or the current handoff, or more detail is required. If a source hash is recorded and verification finds a mismatch, treat the brief as stale. When you find a stale index, check the full handoff against the referenced snapshot before relying on it.
 4. Open the project through the connected file tools, reuse its workspace handle, and follow project instructions. Verify relevant paths, results, and state before acting. Use an optional `FILE_PATHS.md` for a large catalog of logs, artifacts, or datasets.
 5. Summarize the goal, status, open work, and next action. Wait if the startup prompt asks you to wait. If a project has no saved context, work from the evidence available and register it on an explicit save request.
@@ -29,7 +29,7 @@ AgentSpace uses files plus an agent with file access. The user chooses when to s
 2. Read the selected project's full `CURRENT.md` and list its `sessions/` files. Preserve valid prior information and its evidence when merging the new context. Use [the full handoff template](HANDOFF_TEMPLATE.md).
 3. Choose the next unused `YYYY-MM-DD-NN` ID using the user's local date. Use a date alone if the exact time is unknown. Write the complete `sessions/<ID>.md` and verify it before continuing.
 4. Update `CURRENT.md` with the matching full handoff. Verify that both full files contain the same session ID and content. If another writer changed `CURRENT.md` after the first read, reread and reconcile the changes before replacing it.
-5. Derive `BRIEF.md` from the verified full handoff using [the brief template](BRIEF_TEMPLATE.md). Record the same session ID and include a SHA-256 of the full file if computed. Update any separate file catalog when relevant paths change.
+5. Derive `BRIEF.md` from the verified full handoff using [the brief template](BRIEF_TEMPLATE.md). Record the same session ID and include a SHA-256 of the full file if computed. Update any separate file catalog and affected `FEATURE_MAP.md` rows when relevant paths or dependencies change. Review unchanged routes before advancing the map's source session; if not reviewed, leave it stale and report that. A map is a navigation aid, not proof of factual correctness.
 6. Update the project's entry point and latest session ID in `contexts/INDEX.md` last. Read back the brief and index, verify they agree with the full files, and check the important paths. Report success after verification.
 7. If a write or check fails, report which files succeeded and which still need recovery. Keep verified snapshots. A stale brief or registry entry can be rebuilt from a full handoff that matches its snapshot. Use a new session to correct a historical snapshot.
 

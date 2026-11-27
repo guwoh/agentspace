@@ -4,9 +4,17 @@ Run `python3 -B scripts/test_agentspace.py -v` from the starter root. The synthe
 
 The checker supports English and Vietnamese brief metadata, reads the opening metadata instead of embedded historical handoffs, and rejects ambiguous hashes. Redirect-only folders without their own session are not independent saved projects.
 
+## Feature map checks
+
+Synthetic tests cover keyword search, dependency expansion, stale source session, missing maps, duplicate IDs, cycles, unknown dependencies and unsafe or missing paths. The GUI smoke test exercises focused prompt copying in the fictional demo. Map checks only verify structural metadata and file existence, not source contents or token usage.
+
+## DevSpace companion checks
+
+Run `python3 -B scripts/test_devspace_gui.py -v`. Tests use fictional temporary configuration and mock network/service checks. Never restart a live service or copy real credentials during automated tests. Real remote OAuth/mobile acceptance requires a separate authorized client.
+
 ## Desktop checks
 
-Run `python3 -B scripts/test_desktop.py -v` for registry, prompts, skills and backup/restore tests. Run `python3 -B scripts/desktop.py --smoke-test` with a display; manually verify clipboard, AI links, skill editing, backup restoration and font sizes on each platform. See [desktop guide](DESKTOP.md).
+Run `python3 -B scripts/test_desktop.py -v` for registry, prompts, skills, demo isolation, duplicate project rejection, project search, blank workspace rejection and backup/restore tests. Run `python3 -B scripts/desktop.py --smoke-test` with a display; it checks demo, search, quick copy and scrollable page dimensions at 800x540 using 10, 12 and 16 pt settings. Manually verify AI links, skill editing, backup restoration and actual cross-monitor scaling on each platform. See [desktop guide](DESKTOP.md).
 
 ## Manual handoff acceptance
 Use a private throwaway project, not real work:

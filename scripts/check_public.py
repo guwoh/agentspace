@@ -16,7 +16,8 @@ ALLOWED = {
     "scripts/agentspace.py", "scripts/test_agentspace.py", "CHANGELOG.md",
     "scripts/desktop.py", "scripts/desktop_core.py", "scripts/test_desktop.py",
     "scripts/package_release.py", "docs/DESKTOP.md", ".github/workflows/package.yml",
-    "docs/assets/agentspace-banner.svg",
+    "docs/assets/agentspace-banner.svg", "protocol/FEATURE_MAP_TEMPLATE.md",
+    "scripts/devspace_gui.py", "scripts/test_devspace_gui.py", "docs/DEVSPACE.vi.md",
 }
 PATTERNS = [
     ("local home path", re.compile(r"/(?:home|Users)/[^\s/<>]+")),

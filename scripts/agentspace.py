@@ -12,6 +12,7 @@ STARTER_FILES = {
     "protocol/WORKFLOW.md": "protocol/WORKFLOW.md",
     "protocol/HANDOFF_TEMPLATE.md": "protocol/HANDOFF_TEMPLATE.md",
     "protocol/BRIEF_TEMPLATE.md": "protocol/BRIEF_TEMPLATE.md",
+    "protocol/FEATURE_MAP_TEMPLATE.md": "protocol/FEATURE_MAP_TEMPLATE.md",
     "prompts/START.txt": "prompts/START.txt",
     "templates/INDEX.md": "contexts/INDEX.md",
 }
@@ -169,6 +170,14 @@ def main(argv=None):
     start.add_argument("project_id")
     status = sub.add_parser("status", help="list projects from the private registry")
     status.add_argument("root")
+    fmap = sub.add_parser("map", help="list or search feature routes without opening sources")
+    fmap.add_argument("root")
+    fmap.add_argument("project_id")
+    fmap.add_argument("query", nargs="?", default="")
+    fmap.add_argument("--feature", help="exact feature ID; include dependency routes")
+    mapcheck = sub.add_parser("map-check", help="check map freshness, dependencies and paths")
+    mapcheck.add_argument("root")
+    mapcheck.add_argument("project_id")
     args = parser.parse_args(argv)
     try:
         if args.command == "init":
@@ -176,6 +185,26 @@ def main(argv=None):
             print(f"PASS: created {created} files; preserved {skipped} existing files")
             print("Connect your AI file tools and use prompts/START.txt in the private root.")
             return 0
+        if args.command in ("map", "map-check"):
+            from desktop_core import load_feature_map, check_feature_map, find_features, feature_routes
+            info = load_feature_map(args.root, args.project_id)
+            if args.command == "map-check":
+                errors, warnings = check_feature_map(args.root, args.project_id, info)
+                for item in warnings:
+                    print("WARN:", item)
+                for item in errors:
+                    print("FAIL:", item)
+                if not errors and not warnings:
+                    print("PASS: feature map session, dependencies and source paths")
+                return int(bool(errors or warnings))
+            errors, warnings = check_feature_map(args.root, args.project_id, info)
+            for item in errors + warnings:
+                print("WARN:", item, file=sys.stderr)
+            rows = (feature_routes(info, args.feature) if args.feature
+                    else find_features(info, args.query))
+            for row in rows:
+                print(f"{row['id']}\t{row['name']}\t{'; '.join(row['sources'])}\t{','.join(row['deps']) or '-'}\t{row['status']}")
+            return int(bool(errors or warnings))
         if args.command in ("start", "status"):
             from desktop_core import make_prompt, registry
             if args.command == "start":

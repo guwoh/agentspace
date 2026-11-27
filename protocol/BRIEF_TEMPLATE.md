@@ -14,6 +14,7 @@ Summarize the current goal, verified progress, confirmed decisions and one or tw
 
 | When needed | File or location |
 |---|---|
+| Focused task / feature routing | `FEATURE_MAP.md` if maintained |
 | Full status, decisions, and evidence | `CURRENT.md` |
 | Logs, artifacts, and data locations | `FILE_PATHS.md` if maintained, or a specific manifest |
 | Evidence for a current question | <Exact file path or stable link> |

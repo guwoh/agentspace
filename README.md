@@ -2,7 +2,9 @@
 
 ![AgentSpace — your projects, your context, any AI](docs/assets/agentspace-banner.svg)
 
-**A local-first AI workspace for portable project context, reusable prompts and project handoffs.**
+**Switch AI. Keep your progress.**
+
+AgentSpace is a local-first workspace that helps you save project context and pick up where you left off in another AI session.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-4b9c86)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab)](https://www.python.org/)
@@ -10,13 +12,27 @@
 
 [Tiếng Việt](README.vi.md) · [Desktop guide](docs/DESKTOP.md) · [DevSpace setup](docs/DEVSPACE.md) · [Changelog](CHANGELOG.md)
 
-> **Developer Preview v0.2.0:** the first versioned release. Core tests and basic Ubuntu desktop interactions passed; native builds, multi-monitor DPI and real cross-client handoff still require acceptance testing.
+> **Development branch:** v0.3.0-dev adds an interactive fictional demo. The first published source preview is [v0.2.0](https://github.com/guwoh/agentspace/releases/tag/v0.2.0). Native builds, multi-monitor DPI and real cross-client handoff still require acceptance testing.
 
 ## Why AgentSpace?
 
 An AI conversation can end, change models, or move to another authorized account. Your project should not lose its decisions, evidence, tasks and next steps.
 
 AgentSpace keeps that working context in a private Markdown workspace under your control. The desktop app generates prompts and helps navigate the records; an authorized AI with file tools reads and updates them. You decide when to save.
+
+### A concrete example
+
+You are building a robot with ChatGPT. At the end of the session, explicitly ask the AI to save the design decisions, tested results and remaining tasks into AgentSpace. Later, open Claude or another AI with authorized file access, select the robot project in AgentSpace and copy a resume prompt. The new AI can read that saved handoff instead of asking you to reconstruct the entire project. Unsaved chat history is not transferred.
+
+## Try it in one minute
+
+```bash
+git clone https://github.com/guwoh/agentspace.git
+cd agentspace
+python3 -B scripts/desktop.py
+```
+
+Click **Try demo**, then **Start project**. Explore the fictional robot's brief, session history and generated prompt. No account, AI connection or private workspace is needed for this local preview; it uses a temporary workspace that is removed when the app closes normally. Click **Exit demo** to return.
 
 ## Quick start
 
@@ -39,13 +55,18 @@ No AI API key is needed by AgentSpace itself. Clipboard prompts are not sent aut
 
 | Module | What it does |
 | --- | --- |
-| Projects | Browse the private registry and select a project |
+| Projects | Search and browse the private registry, then copy a resume prompt in one click |
+| Feature Map | Search feature IDs and keywords, follow dependency routes, validate paths and copy a focused read-only prompt |
 | Prompt Studio | Generate resume, save, overview, handover, skill-update and new-project prompts |
 | Context & History | Read brief, full handoff and saved snapshots |
 | Skills | Create and edit private Markdown skill definitions |
-| Connections | Open AI clients and check for a local DevSpace executable |
-| Backup & Settings | Back up and restore private text records; adjust text size |
+| Connections | Open AI clients, launch the optional DevSpace configuration GUI, and check the local executable |
+| Backup & Settings | Back up and restore private text records; adjust text size using buttons or keyboard shortcuts |
 | CLI | Initialize, list, check and generate startup prompts without the GUI |
+
+## Remote work with DevSpace
+
+The optional companion GUI helps configure an independently installed DevSpace MCP server, manage allowed roots, check endpoints and connect supported AI clients. On a supported phone client, you can then work with your reachable laptop through the authorized AI. See the step-by-step [English guide](docs/DEVSPACE.md) or [Vietnamese guide](docs/DEVSPACE.vi.md). No credentials or server installation are bundled.
 
 ## How it works
 
@@ -75,6 +96,7 @@ agentspace-private/
     ├── INDEX.md
     └── demo-site/              # Fictional example project
         ├── BRIEF.md
+        ├── FEATURE_MAP.md         # Optional task routing index
         ├── CURRENT.md
         └── sessions/
             └── YYYY-MM-DD-NN.md
@@ -91,6 +113,20 @@ python3 scripts/agentspace.py check ~/work/agentspace-private demo-site
 ```
 
 Replace the fictional ID with your own registered project. The checker compares the registry, session ID, full snapshot and brief metadata; it does not verify factual accuracy. Existing private folders can keep their registry and history; merge updated templates rather than overwriting files.
+
+## Focused context routing
+
+For long-running projects, maintain a small `FEATURE_MAP.md` next to the brief using the [feature map template](protocol/FEATURE_MAP_TEMPLATE.md). It records feature IDs, keywords, scoped source paths, dependencies and status. Check the source session against INDEX, then inspect only the relevant evidence. The map does not replace the full handoff.
+
+Use the Feature map tab or the CLI (the map must already exist):
+
+```bash
+python3 scripts/agentspace.py map ~/work/agentspace-private demo-site "backup"
+python3 scripts/agentspace.py map ~/work/agentspace-private demo-site --feature setup
+python3 scripts/agentspace.py map-check ~/work/agentspace-private demo-site
+```
+
+Use your registered project ID and actual feature IDs. Path checks do not verify symbols, implementation or factual correctness. Token savings depend on the task and have not been benchmarked.
 
 ## Privacy and trust
 
@@ -117,4 +153,4 @@ The [package workflow](.github/workflows/package.yml) defines source and desktop
 
 Issues and focused pull requests are welcome. Describe reproducible steps, expected and actual behavior, platform and Python version. Use fictional or sanitized examples, never live personal context. Run the checks above and review staged files before opening a PR.
 
-AgentSpace is licensed under the [MIT License](LICENSE). Inspired by [AGENTS.md](https://github.com/agentsmd/agents.md), [Cline Memory Bank](https://docs.cline.bot/best-practices/memory-bank) and [Beads](https://github.com/gastownhall/beads). DevSpace is an independent upstream project; its code is not bundled.
+AgentSpace is licensed under the [MIT License](LICENSE). Inspired by [AGENTS.md](https://github.com/agentsmd/agents.md), [Cline Memory Bank](https://docs.cline.bot/best-practices/memory-bank) and [Beads](https://github.com/gastownhall/beads). DevSpace is an independent upstream project; its server code is not bundled. AgentSpace includes its own optional companion GUI.

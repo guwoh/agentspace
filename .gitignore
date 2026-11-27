@@ -11,6 +11,7 @@
 !/protocol/WORKFLOW.md
 !/protocol/HANDOFF_TEMPLATE.md
 !/protocol/BRIEF_TEMPLATE.md
+!/protocol/FEATURE_MAP_TEMPLATE.md
 !/prompts/
 /prompts/*
 !/prompts/START.txt
@@ -37,6 +38,9 @@
 !/scripts/test_agentspace.py
 !/scripts/desktop.py
 !/scripts/desktop_core.py
+!/scripts/devspace_gui.py
+!/scripts/test_devspace_gui.py
+!/docs/DEVSPACE.vi.md
 !/scripts/test_desktop.py
 !/scripts/package_release.py
 !/.github/
