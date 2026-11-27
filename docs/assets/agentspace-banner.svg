@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="270" viewBox="0 0 1000 270" role="img" aria-labelledby="title description">
+  <title id="title">AgentSpace</title>
+  <desc id="description">A portable workspace connecting AI sessions with local project context.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101d35"/>
+      <stop offset="1" stop-color="#1c3455"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8dd9f8"/>
+      <stop offset="1" stop-color="#54c9a9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="270" rx="24" fill="url(#bg)"/>
+  <g fill="none" stroke="#89b6d5" opacity=".12">
+    <path d="M730 0v270M790 0v270M850 0v270M910 0v270M970 0v270M700 45h300M700 105h300M700 165h300M700 225h300"/>
+    <circle cx="860" cy="135" r="115"/>
+    <circle cx="860" cy="135" r="80"/>
+  </g>
+  <g transform="translate(55 54)" stroke="url(#mark)" stroke-width="4" stroke-linejoin="round" fill="none">
+    <path d="M0 17 30 0 60 17 30 34Z"/>
+    <path d="M0 30 30 47 60 30M0 43 30 60 60 43"/>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+    <text x="137" y="99" font-size="49" font-weight="700" fill="#f5f9ff">AgentSpace</text>
+    <text x="57" y="151" font-size="25" font-weight="500" fill="#d2e2f2">Your projects. Your context. Any AI.</text>
+    <text x="57" y="188" font-size="17" fill="#9cb5cf">Portable Markdown handoffs, prompts and private workspaces.</text>
+    <text x="57" y="229" font-size="12" letter-spacing="2" font-weight="600" fill="#7cd8c7">LOCAL-FIRST  /  OPEN SOURCE  /  DESKTOP + CLI</text>
+  </g>
+  <g transform="translate(750 65)" font-family="system-ui, sans-serif" text-anchor="middle">
+    <path d="M105 45v26m0 48v26" stroke="#75c9bc" stroke-width="2" stroke-dasharray="4 5"/>
+    <rect x="30" y="0" width="150" height="45" rx="9" fill="#284767" stroke="#6698bd"/>
+    <text x="105" y="27" font-size="15" fill="#e3f1ff">AI session A</text>
+    <rect x="0" y="71" width="210" height="48" rx="9" fill="#20495a" stroke="#7bd7c3"/>
+    <text x="105" y="100" font-size="15" font-weight="600" fill="#d9fff6">Local context</text>
+    <rect x="30" y="145" width="150" height="45" rx="9" fill="#284767" stroke="#6698bd"/>
+    <text x="105" y="172" font-size="15" fill="#e3f1ff">AI session B</text>
+  </g>
+</svg>

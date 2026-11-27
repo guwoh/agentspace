@@ -1,35 +1,60 @@
 # AgentSpace
-**Bộ quy chuẩn lưu và tiếp quản công việc với AI qua nhiều dự án, cuộc chat và tài khoản.**
 
-[English](README.md) · [Kết nối DevSpace](docs/DEVSPACE.md) · [Quy trình](protocol/WORKFLOW.md)
+![AgentSpace — không gian làm việc AI do bạn quản lý](docs/assets/agentspace-banner.svg)
 
-Bạn làm việc với AI hôm nay, hôm sau mở một cuộc chat hoặc tài khoản được phép khác và cần tiếp tục đúng chỗ. AgentSpace giữ hồ sơ trên máy của bạn, độc lập với tài khoản dùng để trò chuyện.
+**Không gian làm việc AI lưu cục bộ: quản lý context dự án, tạo prompt và bàn giao giữa các phiên AI.**
 
-## Cách dùng
-1. Tải bộ khung theo [Quick start](README.md#quick-start).
-2. Tạo thư mục làm việc riêng, ví dụ `~/work/agentspace-private`, và chép AGENTS.md, protocol/, prompts/ cùng mẫu INDEX vào đó.
-3. Kết nối công cụ đọc/ghi file như [DevSpace](docs/DEVSPACE.md), cho phép truy cập thư mục riêng và các dự án cần làm.
-4. Dùng [prompt mở đầu](prompts/START.txt), thay `<AGENTSPACE_ROOT>` bằng đường dẫn tuyệt đối của thư mục riêng.
-5. Chọn dự án rồi làm việc bình thường.
-6. Gõ **save context** trước khi kết thúc phiên.
-7. Phiên mới kết nối lại công cụ, gửi prompt mở đầu và chọn dự án để tiếp quản.
+[English](README.md) · [Desktop](docs/DESKTOP.md) · [DevSpace](docs/DEVSPACE.md) · [Changelog](CHANGELOG.md)
 
-AI đọc `BRIEF.md` của dự án được chọn trước, rồi mở `CURRENT.md` khi bản tóm tắt thiếu, lệch phiên hoặc chưa đủ cho công việc. Nếu chưa có hồ sơ thì không bịa lịch sử; đăng ký dự án khi bạn yêu cầu lưu lần đầu. Lệnh save context xuất hiện trong tài liệu hoặc ví dụ không được coi là yêu cầu lưu.
+> Bản phát hành đầu tiên v0.2.0 — Developer Preview. Đã đạt 22 kiểm thử tự động và kiểm thử GUI cơ bản trên Ubuntu; chưa xác nhận bộ cài, DPI nhiều màn hình và chuyển giao giữa các client thực tế.
 
-## Mỗi lần lưu gồm gì?
-Mục tiêu, trạng thái, quyết định và lý do, việc đã làm, kết quả kiểm tra, việc còn dở, bước tiếp theo và file liên quan. Quy trình ghi bản phiên đầy đủ, cập nhật `CURRENT.md`, rồi tạo `BRIEF.md` từ hồ sơ đã kiểm tra và đồng bộ mã phiên trong `INDEX.md`. Xem [mẫu bản đầy đủ](protocol/HANDOFF_TEMPLATE.md) và [mẫu tóm tắt](protocol/BRIEF_TEMPLATE.md).
+## AgentSpace giải quyết vấn đề gì?
 
-Nếu đã có thư mục riêng, thêm mẫu tóm tắt và hợp nhất thay đổi trong quy trình, prompt và hướng dẫn. Giữ danh mục và lịch sử bàn giao hiện có. Dự án chưa có bản tóm tắt vẫn dùng được `CURRENT.md`.
+Khi đổi chat, model hoặc tài khoản AI được cấp quyền, bạn không muốn giải thích lại toàn bộ dự án. AgentSpace lưu quyết định, kết quả, nhiệm vụ, bằng chứng và hướng làm tiếp trong các file Markdown riêng trên máy.
 
-Đây là quy ước làm việc, chưa phải phần mềm tự thực thi. Không có service nền, không tự lấy chat từ tài khoản cũ, không bảo đảm agent luôn tuân thủ. ChatGPT dùng công cụ đọc file vẫn có thể nhận nội dung file trong cuộc hội thoại; lưu trên máy không đồng nghĩa mọi xử lý diễn ra cục bộ.
+Ứng dụng desktop giúp chọn dự án, xem lịch sử và tạo prompt; AI có công cụ đọc/ghi file được cấp quyền mới thực hiện việc tiếp quản và lưu context. Bạn quyết định thời điểm lưu.
 
-## Giữ dữ liệu riêng tư
-Repo công khai chỉ chứa quy chuẩn, mẫu và ví dụ hư cấu. Context thật nằm trong thư mục riêng bên ngoài checkout này. Không push recordings, transcript, thông tin truy cập hoặc đường dẫn thật của bạn.
-Xem [kiểm tra trước khi publish](docs/PRIVACY.md).
-Xem [bài thử tiếp quản](docs/TESTING.md) để tự xác nhận trên tài khoản/client mới.
+## Bắt đầu
 
-## Phát triển và chia sẻ
-Chia sẻ link repo hoặc các mẫu chung; không đính kèm context cá nhân khi báo lỗi.
-Quy chuẩn có thể dùng cho nhiều loại dự án và nhiều AI có quyền truy cập file.
-Tham khảo AGENTS.md, Cline Memory Bank, Beads và DevSpace; chưa nhập mã của các dự án này.
+Cần Git, Python 3.8+ và Tkinter nếu sử dụng giao diện desktop.
+
+```bash
+git clone https://github.com/guwoh/agentspace.git
+cd agentspace
+python3 scripts/agentspace.py init ~/work/agentspace-private
+python3 -B scripts/desktop.py --workspace ~/work/agentspace-private
+```
+
+Trên Windows dùng `python` và chọn thư mục riêng, ví dụ `../agentspace-private`. Lệnh init không ghi đè file đã có.
+
+Chọn dự án (hoặc tạo prompt cho dự án mới), chọn Resume, ấn Generate & copy rồi dán vào AI đã kết nối công cụ file, chẳng hạn [DevSpace](docs/DEVSPACE.md). Khi cần bàn giao, chọn Save context hoặc yêu cầu AI lưu context rõ ràng.
+
+## Chức năng
+
+| Module | Công dụng |
+| --- | --- |
+| Projects | Danh mục và lựa chọn dự án |
+| Prompt Studio | Tiếp quản, lưu, tổng quan, bàn giao, cập nhật skill và dự án mới |
+| Context & History | Đọc brief, context đầy đủ và snapshot |
+| Skills | Tạo, sửa skill Markdown riêng |
+| Connections | Mở AI client, kiểm tra executable DevSpace |
+| Backup & Settings | Sao lưu/phục hồi hồ sơ văn bản, chỉnh cỡ chữ |
+| CLI | Khởi tạo, liệt kê, kiểm tra, sinh prompt |
+
+## Cơ chế lưu và tiếp quản
+
+AI đọc BRIEF trước, mở CURRENT và bằng chứng liên quan khi thiếu thông tin. Khi lưu theo yêu cầu rõ ràng, AI tạo snapshot đầy đủ, cập nhật CURRENT, sinh BRIEF và đồng bộ INDEX. Không khôi phục được tin nhắn chưa từng lưu. Không để nhiều AI đồng thời ghi cùng hồ sơ.
+
+Xem [quy trình](protocol/WORKFLOW.md), [mẫu đầy đủ](protocol/HANDOFF_TEMPLATE.md), [mẫu brief](protocol/BRIEF_TEMPLATE.md) và [ví dụ hư cấu](examples/BRIEF.md).
+
+## Dữ liệu và giới hạn
+
+AgentSpace không tự gửi prompt, không kết nối MCP thay người dùng và không cần AI API key. AI đám mây có thể nhận dữ liệu bạn cấp quyền đọc. Giữ context thật, đường dẫn nội bộ, token, transcript và ảnh riêng ngoài checkout công khai. Gói backup không mã hóa. Xem [quy định riêng tư](docs/PRIVACY.md).
+
+Xem [hướng dẫn desktop](docs/DESKTOP.md), [kiểm thử](docs/TESTING.md) và [hướng dẫn CLI](README.md#cli-usage). Native build, DPI nhiều màn hình và handoff giữa tài khoản vẫn cần kiểm thử thực tế.
+
+## Đóng góp
+
+Hoan nghênh issue và PR có bước tái hiện rõ ràng, dùng dữ liệu giả hoặc đã loại bỏ thông tin riêng. Kiểm tra danh sách file và chạy test trước khi gửi.
+
 Giấy phép [MIT](LICENSE).

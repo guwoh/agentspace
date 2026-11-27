@@ -1,4 +1,4 @@
-# AgentSpace workflow v0.2
+# AgentSpace workflow v0.3
 
 AgentSpace uses files plus an agent with file access. The user chooses when to save.
 
@@ -32,6 +32,8 @@ AgentSpace uses files plus an agent with file access. The user chooses when to s
 5. Derive `BRIEF.md` from the verified full handoff using [the brief template](BRIEF_TEMPLATE.md). Record the same session ID and include a SHA-256 of the full file if computed. Update any separate file catalog when relevant paths change.
 6. Update the project's entry point and latest session ID in `contexts/INDEX.md` last. Read back the brief and index, verify they agree with the full files, and check the important paths. Report success after verification.
 7. If a write or check fails, report which files succeeded and which still need recovery. Keep verified snapshots. A stale brief or registry entry can be rebuilt from a full handoff that matches its snapshot. Use a new session to correct a historical snapshot.
+
+When the starter's optional CLI is available, run its read-only check for the selected project after saving. It verifies structural agreement, not factual accuracy. If it reports an error, inspect the relevant full files before making any correction.
 
 Use one writer per project. Keep raw datasets, full tool logs, and secrets out of the handoff. Record the exact file path or stable link, what it provides, and whether you checked it. For a collection, link to its manifest when available.
 

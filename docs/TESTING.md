@@ -1,6 +1,12 @@
 # Testing the starter
 ## Package checks
-Run the commands in [PRIVACY.md](PRIVACY.md). The standard-library Python checker has synthetic negative cases for secrets, local home paths, unexpected files, and binary data.
+Run `python3 -B scripts/test_agentspace.py -v` from the starter root. The synthetic tests exercise safe initialization, existing-file preservation, path validation, valid and stale handoffs, mismatched snapshots and hashes, and legacy context. Run the commands in [PRIVACY.md](PRIVACY.md). The standard-library Python checker has synthetic negative cases for secrets, local home paths, unexpected files, and binary data.
+
+The checker supports English and Vietnamese brief metadata, reads the opening metadata instead of embedded historical handoffs, and rejects ambiguous hashes. Redirect-only folders without their own session are not independent saved projects.
+
+## Desktop checks
+
+Run `python3 -B scripts/test_desktop.py -v` for registry, prompts, skills and backup/restore tests. Run `python3 -B scripts/desktop.py --smoke-test` with a display; manually verify clipboard, AI links, skill editing, backup restoration and font sizes on each platform. See [desktop guide](DESKTOP.md).
 
 ## Manual handoff acceptance
 Use a private throwaway project, not real work:

@@ -8,6 +8,7 @@ This repository is deliberately a generic starter. Private runtime data belongs 
 4. Stage explicit approved file paths. Avoid `git add .` in a folder containing private data.
 5. Run:
 ```bash
+python3 -B scripts/test_agentspace.py -v
 python3 scripts/check_public.py --self-test
 python3 scripts/check_public.py
 python3 scripts/check_public.py --staged

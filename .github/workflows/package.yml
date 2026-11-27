@@ -1,0 +1,51 @@
+name: Build portable source package
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: python3 -B scripts/test_agentspace.py -v
+      - run: python3 -B scripts/test_desktop.py -v
+      - run: python3 scripts/check_public.py --staged --history
+      - run: python3 -B scripts/package_release.py ../AgentSpace-preview.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AgentSpace-portable-source
+          path: ../AgentSpace-preview.zip
+          if-no-files-found: error
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -B scripts/test_agentspace.py -v
+      - run: python -B scripts/test_desktop.py -v
+      - run: python scripts/check_public.py --staged --history
+      - run: python -m pip install pyinstaller==6.11.1
+      - name: Build standalone desktop bundle
+        run: >-
+          python -m PyInstaller --noconfirm --onedir --windowed --name AgentSpace
+          --add-data "AGENTS.md:." --add-data "protocol:protocol"
+          --add-data "prompts:prompts" --add-data "templates:templates"
+          scripts/desktop.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AgentSpace-desktop-${{ matrix.os }}
+          path: dist/AgentSpace
+          if-no-files-found: error

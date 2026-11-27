@@ -1,55 +1,120 @@
 # AgentSpace
-**Portable project handoffs for AI-assisted work. Save once. Resume in another chat.**
 
-[Tiếng Việt](README.vi.md) · [DevSpace setup](docs/DEVSPACE.md) · [Workflow](protocol/WORKFLOW.md)
+![AgentSpace — your projects, your context, any AI](docs/assets/agentspace-banner.svg)
 
-AgentSpace is a small, file-based working convention for people using AI across multiple projects, conversations, accounts, and clients. The AI reads a shared protocol, selects a project, and resumes from its latest saved handoff. You decide when to save by typing **save context**.
+**A local-first AI workspace for portable project context, reusable prompts and project handoffs.**
 
-This is a starter kit, not a background service, model memory plugin, or chat-history exporter. It cannot recover conversations that were never saved, guarantee an agent follows instructions, or make cloud inference local.
+[![License: MIT](https://img.shields.io/badge/license-MIT-4b9c86)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab)](https://www.python.org/)
+[![Public starter checks](https://github.com/guwoh/agentspace/actions/workflows/verify.yml/badge.svg)](https://github.com/guwoh/agentspace/actions/workflows/verify.yml)
+
+[Tiếng Việt](README.vi.md) · [Desktop guide](docs/DESKTOP.md) · [DevSpace setup](docs/DEVSPACE.md) · [Changelog](CHANGELOG.md)
+
+> **Developer Preview v0.2.0:** the first versioned release. Core tests and basic Ubuntu desktop interactions passed; native builds, multi-monitor DPI and real cross-client handoff still require acceptance testing.
+
+## Why AgentSpace?
+
+An AI conversation can end, change models, or move to another authorized account. Your project should not lose its decisions, evidence, tasks and next steps.
+
+AgentSpace keeps that working context in a private Markdown workspace under your control. The desktop app generates prompts and helps navigate the records; an authorized AI with file tools reads and updates them. You decide when to save.
 
 ## Quick start
-Keep this public starter checkout separate from your private working folder:
+
+Requirements: Git and Python 3.8+; Tkinter for the desktop interface. On Ubuntu, install your distribution's Tkinter package if it is missing.
 
 ```bash
-git clone https://github.com/guwoh/agentspace.git agentspace-starter
-mkdir -p ~/work/agentspace-private/contexts
-cp agentspace-starter/AGENTS.md ~/work/agentspace-private/
-cp -R agentspace-starter/protocol agentspace-starter/prompts ~/work/agentspace-private/
-cp agentspace-starter/templates/INDEX.md ~/work/agentspace-private/contexts/INDEX.md
+git clone https://github.com/guwoh/agentspace.git
+cd agentspace
+python3 scripts/agentspace.py init ~/work/agentspace-private
+python3 -B scripts/desktop.py --workspace ~/work/agentspace-private
 ```
 
-The example commands target Bash (Linux/macOS/WSL). Do not overwrite existing files when adopting an existing setup. No server or AI API key is required for AgentSpace itself. Your AI needs file tools that can access the private working folder and selected project folders; [DevSpace](docs/DEVSPACE.md) is one option.
+On Windows, use `python` instead of `python3` and choose a separate private folder such as `../agentspace-private`. The initializer only creates missing starter files.
 
-1. Connect your AI's file tools.
-2. Copy [prompts/START.txt](prompts/START.txt), replacing `<AGENTSPACE_ROOT>` with the absolute path to your **private** working folder.
-3. Name the project, or let the agent list registered projects.
-4. Work normally. Type `save context` to create a handoff.
-5. In a new chat or authorized account, reconnect file access and send the same startup prompt.
+In the desktop app, select a project (or generate a new-project prompt), select **Resume**, and use **Generate & copy**. Paste the prompt into your AI after connecting an authorized file-access tool. [DevSpace](docs/DEVSPACE.md) is one option. When you want a handoff, use the **Save context** prompt or explicitly ask the AI to save context.
 
-The private context layout uses:
-- `contexts/INDEX.md` records project IDs, local paths, entry points, and latest session IDs.
-- `contexts/<project-id>/BRIEF.md` gives a short overview and links to relevant sources.
-- `contexts/<project-id>/CURRENT.md` holds the latest full handoff.
-- `contexts/<project-id>/sessions/YYYY-MM-DD-NN.md` keeps immutable full snapshots.
+No AI API key is needed by AgentSpace itself. Clipboard prompts are not sent automatically.
 
-Read the selected project's brief first. Open its full handoff when the brief is absent, stale, or too short for the task. Keep projects separate and register a new project on its first requested save.
+## Features
 
-### Updating an existing private folder
+| Module | What it does |
+| --- | --- |
+| Projects | Browse the private registry and select a project |
+| Prompt Studio | Generate resume, save, overview, handover, skill-update and new-project prompts |
+| Context & History | Read brief, full handoff and saved snapshots |
+| Skills | Create and edit private Markdown skill definitions |
+| Connections | Open AI clients and check for a local DevSpace executable |
+| Backup & Settings | Back up and restore private text records; adjust text size |
+| CLI | Initialize, list, check and generate startup prompts without the GUI |
 
-Add the new brief template and merge the updated workflow, startup prompt, and instructions into your private copies. Keep your registry and full handoff history. Projects without a brief can continue using `CURRENT.md`. On the next requested save, derive a brief from the verified full handoff and update the registry.
+## How it works
 
-## What gets saved
-Goal, confirmed decisions and reasons, completed work and checks, open questions, next actions, and relevant file paths. Mark plans and assumptions explicitly. See the [full handoff template](protocol/HANDOFF_TEMPLATE.md), [brief template](protocol/BRIEF_TEMPLATE.md), and [fictional brief with full handoff](examples/BRIEF.md).
+```mermaid
+flowchart LR
+    A["Authorized AI session A"] -->|"Explicit save context"| W["Private AgentSpace workspace"]
+    D["Desktop / CLI"] -->|"Browse, check, generate prompt"| W
+    W -->|"Brief-first resume"| B["Authorized AI session B"]
+    W --- H["Markdown handoffs and snapshots"]
+```
 
-## Public starter vs private data
-Publish only generic rules, templates, and fictional examples. Keep real contexts, paths, recordings, attachments, credentials, and transcripts in the private working folder. The starter uses a deny-by-default Git ignore list and an [allowlist/content audit](docs/PRIVACY.md); these are checks, not a guarantee against every kind of sensitive information.
+1. **Work** — select one project; read its brief and the relevant evidence.
+2. **Save** — explicitly request a full handoff, snapshot and brief.
+3. **Resume** — reconnect file access in another session, select the same project and continue.
 
-## Verification and limits
-Run `python3 scripts/check_public.py` from the starter root. After staging, run `python3 scripts/check_public.py --staged`; after committing, use `--history` too. Tests here check the public package, not cross-account behavior or a real DevSpace installation. Use [the manual acceptance test](docs/TESTING.md) to verify your own environment.
+The desktop app is a local helper, not an autonomous AI agent. It does not authenticate MCP connections, export chat history or restore unsaved messages. Keep concurrent writers away from the same handoff.
 
-No automatic save runs after each chat turn. Work since the last successful save can be lost. File snapshots do not preserve an entire model context window. Avoid concurrent writers to the same handoff.
+## Private workspace layout
 
-## Credits and license
-Original workflow documents written for this starter. Inspired by [AGENTS.md](https://github.com/agentsmd/agents.md), [Cline Memory Bank](https://docs.cline.bot/best-practices/memory-bank), and [Beads](https://github.com/gastownhall/beads).
-[DevSpace](https://github.com/Waishnav/devspace) is an independent upstream project; no upstream code is bundled.
-MIT — see [LICENSE](LICENSE).
+```text
+agentspace-private/
+├── AGENTS.md
+├── protocol/
+├── prompts/
+├── skills/                     # Optional private skills
+└── contexts/
+    ├── INDEX.md
+    └── demo-site/              # Fictional example project
+        ├── BRIEF.md
+        ├── CURRENT.md
+        └── sessions/
+            └── YYYY-MM-DD-NN.md
+```
+
+The brief is the first entry point; CURRENT keeps the full handoff, and sessions retain immutable historical copies. The registry records the latest session. Each saved project should keep verified results distinct from plans. See the [workflow](protocol/WORKFLOW.md), [full handoff template](protocol/HANDOFF_TEMPLATE.md), [brief template](protocol/BRIEF_TEMPLATE.md) and [fictional example](examples/BRIEF.md).
+
+### CLI usage
+
+```bash
+python3 scripts/agentspace.py status ~/work/agentspace-private
+python3 scripts/agentspace.py start ~/work/agentspace-private demo-site
+python3 scripts/agentspace.py check ~/work/agentspace-private demo-site
+```
+
+Replace the fictional ID with your own registered project. The checker compares the registry, session ID, full snapshot and brief metadata; it does not verify factual accuracy. Existing private folders can keep their registry and history; merge updated templates rather than overwriting files.
+
+## Privacy and trust
+
+- Keep real contexts, credentials, local paths, recordings and attachments outside the public checkout.
+- AI file access still requires authorization. A cloud AI may receive the context you give it.
+- Backup ZIPs contain private text and are not encrypted. Keep them private.
+- Public content is audited with an explicit allowlist and secret/path checks; this is not a guarantee that all sensitive information is detected.
+
+Read the [privacy guide](docs/PRIVACY.md) before publishing a fork or package.
+
+## Development
+
+```bash
+python3 -B scripts/test_agentspace.py -v
+python3 -B scripts/test_desktop.py -v
+python3 -B scripts/check_public.py --history
+```
+
+The desktop build uses Tkinter. The initial preview passed 22 automated core tests and basic GUI and clipboard checks on Ubuntu. A GUI smoke test requires a graphical display or Xvfb. These tests do not certify live AI connections, multi-monitor DPI or cross-account handoffs. See [testing](docs/TESTING.md) and [desktop limitations](docs/DESKTOP.md).
+
+The [package workflow](.github/workflows/package.yml) defines source and desktop build jobs. No stable installer or release is claimed.
+
+## Contributing and license
+
+Issues and focused pull requests are welcome. Describe reproducible steps, expected and actual behavior, platform and Python version. Use fictional or sanitized examples, never live personal context. Run the checks above and review staged files before opening a PR.
+
+AgentSpace is licensed under the [MIT License](LICENSE). Inspired by [AGENTS.md](https://github.com/agentsmd/agents.md), [Cline Memory Bank](https://docs.cline.bot/best-practices/memory-bank) and [Beads](https://github.com/gastownhall/beads). DevSpace is an independent upstream project; its code is not bundled.

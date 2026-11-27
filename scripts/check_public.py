@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Audit the generic public starter. No dependencies; no file writes."""
 import argparse
-from pathlib import Path, PurePosixPath
+from pathlib import Path
+import posixpath
 import re
 import subprocess
 import sys
@@ -12,6 +13,10 @@ ALLOWED = {
     "prompts/START.txt", "templates/INDEX.md", "examples/HANDOFF.md", "examples/BRIEF.md",
     "docs/DEVSPACE.md", "docs/PRIVACY.md", "docs/TESTING.md",
     "scripts/check_public.py", ".github/workflows/verify.yml",
+    "scripts/agentspace.py", "scripts/test_agentspace.py", "CHANGELOG.md",
+    "scripts/desktop.py", "scripts/desktop_core.py", "scripts/test_desktop.py",
+    "scripts/package_release.py", "docs/DESKTOP.md", ".github/workflows/package.yml",
+    "docs/assets/agentspace-banner.svg",
 }
 PATTERNS = [
     ("local home path", re.compile(r"/(?:home|Users)/[^\s/<>]+")),
@@ -30,6 +35,8 @@ def audit(path, data, deny=()):
     errors = []
     if path not in ALLOWED:
         errors.append("file outside public allowlist")
+    if b"\x00" in data:
+        return errors + ["non-text data"]
     try:
         value = data.decode("utf-8")
     except UnicodeDecodeError:
@@ -48,6 +55,7 @@ def self_test():
     assert audit("README.md", ("gh" + "p_" + "A" * 30).encode())
     assert audit("README.md", b"private marker", ("private marker",))
     assert audit("README.md", b"\xff")
+    assert audit("README.md", b"\x00")
     assert not audit("README.md", b"https://service.example.com/mcp")
     print("PASS: allowlist, private paths, token, custom marker, binary rejection, placeholder URL")
 
@@ -63,9 +71,12 @@ def main():
         return 0
     failures = []
     seen = set()
+    current_blobs = {}
 
-    def inspect(path, data, mode=None):
-        seen.add(path)
+    def inspect(path, data, mode=None, historical=False):
+        if not historical:
+            seen.add(path)
+            current_blobs[path] = data
         if mode is not None and mode not in ("100644", "100755"):
             failures.append((path, "symlink/submodule or unsupported Git mode"))
         for error in audit(path, data, args.deny):
@@ -107,18 +118,18 @@ def main():
                 if kind != "blob":
                     failures.append((path, "non-blob history entry"))
                     continue
-                inspect(path, git("cat-file", "blob", oid), mode)
+                inspect(path, git("cat-file", "blob", oid), mode, historical=True)
 
-    # Verify relative Markdown links in the public worktree.
-    for name in sorted(ALLOWED):
-        file = ROOT / name
-        if file.suffix != ".md" or not file.is_file():
+    # Check links against the selected tree, not unstaged files or old history.
+    for name, data in sorted(current_blobs.items()):
+        if not name.endswith(".md"):
             continue
-        for target in re.findall(r"\]\(([^)]+)\)", file.read_text()):
+        for target in re.findall(r"\]\(([^)]+)\)", data.decode("utf-8", errors="replace")):
             if re.match(r"[a-zA-Z][a-zA-Z0-9+.-]*:", target) or target.startswith("#"):
                 continue
             target = target.split("#", 1)[0]
-            if target and not (file.parent / target).exists():
+            resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), target))
+            if target and resolved not in current_blobs and not any(p.startswith(resolved + "/") for p in current_blobs):
                 failures.append((name, "broken relative link"))
     for path, reason in failures:
         print("FAIL:", path, "-", reason)
